@@ -24,25 +24,29 @@ There is no build, test, or lint pipeline — this is a content repository. Vali
 
 ## Layout
 
-Skills live directly under `skills/`, grouped into four capability groups:
+Skills live directly under `skills/`, one folder per skill:
 
 ```
 skills/
-├── documentation/           take-snapshot
-├── handoff/                 brief-the-recipient, consult-the-expert, report-to-the-owner
-├── research/                afk-exploration, the-librarian
-└── support/                 meta-prompting, name-cracker
+├── afk-exploration
+├── brief-the-recipient
+├── consult-the-expert
+├── meta-prompting
+├── name-cracker
+├── report-to-the-owner
+├── take-snapshot
+└── the-librarian
 ```
 
 Rules:
 
-- Every skill lives at `skills/<group>/<skill-name>/SKILL.md`. The leaf directory name MUST match the `name:` field in the frontmatter.
-- `README.md` — index of available skills; update when adding/removing a skill (use the full nested path in links).
-- `.claude-plugin/marketplace.json` — registers this repo as a `vercel-labs/skills` plugin per `skills/` group, so installs are grouped under a named heading (e.g. `JeisKappa Handoff`, `JeisKappa Support`) instead of `General` in `npx skills list`. Every skill folder MUST be listed in the plugin matching its group's `skills` array as `./skills/<group>/<skill-name>`. To introduce a new group/heading, add a new folder under `skills/` AND add the matching plugin entry (`JeisKappa-<folder-name>`) to the `plugins` array. **Plugin order**: entries in `plugins` MUST be sorted alphabetically by `name`. Display rule: the CLI splits `name` on `-`, uppercases the first char of each segment, then joins with spaces — so `JeisKappa-handoff` renders as `JeisKappa Handoff`. Dashes cannot survive into the displayed title.
+- Every skill lives at `skills/<skill-name>/SKILL.md`. The leaf directory name MUST match the `name:` field in the frontmatter.
+- `README.md` — index of available skills, listed alphabetically; update when adding/removing a skill.
+- `.claude-plugin/marketplace.json` — registers this repo as a single `vercel-labs/skills` plugin named `JeisKappa-skills`, so installs are listed under the `JeisKappa Skills` heading instead of `General` in `npx skills list`. Every skill folder MUST appear in that plugin's `skills` array as `./skills/<skill-name>`, sorted alphabetically. Display rule: the CLI splits `name` on `-`, uppercases the first char of each segment, then joins with spaces — so `JeisKappa-skills` renders as `JeisKappa Skills`. Dashes cannot survive into the displayed title.
 
 ## SKILL.md format
 
-Every skill file starts with YAML frontmatter, then the skill body. Mirror the structure of `skills/handoff/consult-the-expert/SKILL.md`:
+Every skill file starts with YAML frontmatter, then the skill body. Mirror the structure of `skills/consult-the-expert/SKILL.md`:
 
 ```yaml
 ---
@@ -82,11 +86,10 @@ Skills whose job is to produce a deliverable for the user to copy, paste, or han
 
 ## When adding a new skill
 
-1. Decide which group the skill belongs to: `documentation`, `handoff`, `research`, or `support`. If none fits, propose a new group folder and document it in this file's Layout section in the same change.
-2. Create `skills/<group>/<skill-name>/SKILL.md` with the frontmatter shown above (start at `version: 1.0.0`), as a user-invoked entry point: set `disable-model-invocation: true`. Ship `agents/openai.yaml` with a universal `interface:` block (`display_name` in title case, a fresh terse `short_description`) and add `policy.allow_implicit_invocation: false` beneath it. The two harness declarations must never diverge.
-3. Add a section to `README.md` under the matching group heading with the description and the `npx skills add …` install snippet, linking to the full nested path.
-4. Register the skill folder in `.claude-plugin/marketplace.json` under the plugin matching its group's `skills` array as `./skills/<group>/<skill-name>` — there is one plugin per group. Keep `plugins` sorted alphabetically by `name`. If the group is new, also add a new plugin entry named `JeisKappa-<folder-name>` in the same change.
-5. Add the skill's folder name (the leaf, not the full path) to `conventionalCommits.scopes` in `.vscode/settings.json` (keep the array sorted alphabetically) so it shows up as a commit scope.
+1. Create `skills/<skill-name>/SKILL.md` with the frontmatter shown above (start at `version: 1.0.0`), as a user-invoked entry point: set `disable-model-invocation: true`. Ship `agents/openai.yaml` with a universal `interface:` block (`display_name` in title case, a fresh terse `short_description`) and add `policy.allow_implicit_invocation: false` beneath it. The two harness declarations must never diverge.
+2. Add a section to `README.md` under the `## Skills` heading with the description and the `npx skills add …` install snippet, linking to `./skills/<skill-name>/SKILL.md`. Keep the list sorted alphabetically.
+3. Register the skill folder in `.claude-plugin/marketplace.json` in the `JeisKappa-skills` plugin's `skills` array as `./skills/<skill-name>`, keeping that array sorted alphabetically.
+4. Add the skill's folder name to `conventionalCommits.scopes` in `.vscode/settings.json` (keep the array sorted alphabetically) so it shows up as a commit scope.
 
 ## Commits
 

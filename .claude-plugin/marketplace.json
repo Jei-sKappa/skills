@@ -1,35 +1,17 @@
 {
   "plugins": [
     {
-      "name": "JeisKappa-documentation",
+      "name": "JeisKappa-skills",
       "source": "./",
       "skills": [
-        "./skills/documentation/take-snapshot"
-      ]
-    },
-    {
-      "name": "JeisKappa-handoff",
-      "source": "./",
-      "skills": [
-        "./skills/handoff/brief-the-recipient",
-        "./skills/handoff/consult-the-expert",
-        "./skills/handoff/report-to-the-owner"
-      ]
-    },
-    {
-      "name": "JeisKappa-research",
-      "source": "./",
-      "skills": [
-        "./skills/research/afk-exploration",
-        "./skills/research/the-librarian"
-      ]
-    },
-    {
-      "name": "JeisKappa-support",
-      "source": "./",
-      "skills": [
-        "./skills/support/meta-prompting",
-        "./skills/support/name-cracker"
+        "./skills/afk-exploration",
+        "./skills/brief-the-recipient",
+        "./skills/consult-the-expert",
+        "./skills/meta-prompting",
+        "./skills/name-cracker",
+        "./skills/report-to-the-owner",
+        "./skills/take-snapshot",
+        "./skills/the-librarian"
       ]
     }
   ]
