@@ -1,0 +1,14 @@
+{
+  "conventionalCommits.gitmoji": false,
+  "conventionalCommits.promptFooter": false,
+  "conventionalCommits.scopes": [
+    "afk-exploration",
+    "brief-the-recipient",
+    "consult-the-expert",
+    "meta-prompting",
+    "name-cracker",
+    "report-to-the-owner",
+    "take-snapshot",
+    "the-librarian"
+  ]
+}
